@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "babel-node src/server/index.js",
     "start": "NODE_ENV=production node lib/server/index.js",
-    "build": "next build && babel src --out-dir lib --copy-files",
+    "build": "next build && babel src --out-dir lib --copy-files && mkdir -p tmp && echo ${GOOGLE_API_CREDENTIAL} > ${GOOGLE_APPLICATION_CREDENTIALS:-\"./tmp/google_api_credential.json\"}",
     "test": "jest",
     "clean": "rimraf lib"
   },
