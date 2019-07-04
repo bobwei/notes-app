@@ -1,6 +1,7 @@
 import express from 'express';
 import next from 'next';
 import createExpressWS from 'express-ws';
+import 'dotenv/config';
 
 import createGoogleSpeechAPI from './google-speech-api';
 

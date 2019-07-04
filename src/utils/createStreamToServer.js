@@ -1,5 +1,5 @@
-const fn = ({ stream }) => {
-  const audioContext = new AudioContext();
+const fn = ({ stream, onTranscripted }) => {
+  const audioContext = new AudioContext({ sampleRate: 16000 });
 
   const inputPoint = audioContext.createGain();
   const microphone = audioContext.createMediaStreamSource(stream);
@@ -14,12 +14,18 @@ const fn = ({ stream }) => {
   const url = `ws://${window.location.host}/api/speech`;
   const ws = new WebSocket(url);
 
+  const MAX_INT = Math.pow(2, 16 - 1) - 1;
+
   const onAudioProcess = (e) => {
     if (ws.readyState === ws.OPEN) {
       const floatSamples = e.inputBuffer.getChannelData(0);
-      const data = new Int16Array(floatSamples.buffer);
-      ws.send(data);
+      const intSamples = Int16Array.from(floatSamples.map((n) => n * MAX_INT));
+      ws.send(intSamples);
     }
+  };
+
+  ws.onmessage = (event) => {
+    onTranscripted(JSON.parse(event.data));
   };
 
   scriptProcessor.addEventListener('audioprocess', onAudioProcess);
