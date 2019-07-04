@@ -11,7 +11,10 @@ const fn = ({ stream, onTranscripted }) => {
   inputPoint.connect(scriptProcessor);
   scriptProcessor.connect(inputPoint.context.destination);
 
-  const url = `ws://${window.location.host}/api/speech`;
+  const url =
+    window.location.protocol === 'https:'
+      ? `wss://${window.location.host}/api/speech`
+      : `ws://${window.location.host}/api/speech`;
   const ws = new WebSocket(url);
 
   const MAX_INT = Math.pow(2, 16 - 1) - 1;
