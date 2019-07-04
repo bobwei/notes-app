@@ -1,37 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col } from 'reactstrap';
 import { Button } from 'reactstrap';
 import { Form, FormGroup, Input } from 'reactstrap';
 
-import createMediaRecorder from '../src/utils/createMediaRecorder';
+import createStreamToServer from '../src/utils/createStreamToServer';
 
 const fn = () => {
-  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [isRecording, setIsRecording] = useState(false);
+  useEffect(() => {
+    if (isRecording) {
+      const recording = startRecording();
+      return () => recording.then((cleanUp) => cleanUp());
+    }
+  }, [isRecording]);
   return (
     <>
       <div className="main-container">
         <Container>
           <Row className="block">
             <Col md={{ size: 4, offset: 4 }}>
-              {!mediaRecorder && (
-                <Button
-                  block
-                  color="primary"
-                  onClick={createOnStart({ setMediaRecorder })}
-                >
-                  Record
-                </Button>
-              )}
-              {mediaRecorder && (
-                <Button
-                  block
-                  color="primary"
-                  onClick={createOnStop({ mediaRecorder, setMediaRecorder })}
-                >
-                  Stop
-                </Button>
-              )}
+              <Button block color="primary" onClick={() => setIsRecording((val) => !val)}>
+                {!isRecording ? 'Record' : 'Stop'}
+              </Button>
             </Col>
           </Row>
           <Row className="block">
@@ -65,20 +56,15 @@ const fn = () => {
 
 export default fn;
 
-function createOnStart({ setMediaRecorder }) {
-  return async () => {
-    const mediaRecorder = await createMediaRecorder();
-    mediaRecorder.addEventListener('dataavailable', (event) => {
-      console.log(event.data);
-    });
-    mediaRecorder.start(1000);
-    setMediaRecorder(mediaRecorder);
-  };
-}
-
-function createOnStop({ mediaRecorder, setMediaRecorder }) {
+async function startRecording() {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  const config = { audioBitsPerSecond: 128000, mimeType: 'audio/webm' };
+  const mediaRecorder = new MediaRecorder(stream, config);
+  mediaRecorder.start(1000);
+  const cleanUpStreamToServer = createStreamToServer({ stream });
   return () => {
+    cleanUpStreamToServer();
     mediaRecorder.stop();
-    setMediaRecorder(null);
+    stream.getTracks()[0].stop();
   };
 }
