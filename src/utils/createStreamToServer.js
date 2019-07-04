@@ -11,14 +11,21 @@ const fn = ({ stream }) => {
   inputPoint.connect(scriptProcessor);
   scriptProcessor.connect(inputPoint.context.destination);
 
+  const url = `ws://${window.location.host}/api/speech`;
+  const ws = new WebSocket(url);
+
   const onAudioProcess = (e) => {
-    const floatSamples = e.inputBuffer.getChannelData(0);
-    const data = Int16Array.from(floatSamples);
+    if (ws.readyState === ws.OPEN) {
+      const floatSamples = e.inputBuffer.getChannelData(0);
+      const data = new Int16Array(floatSamples.buffer);
+      ws.send(data);
+    }
   };
 
   scriptProcessor.addEventListener('audioprocess', onAudioProcess);
   return () => {
     scriptProcessor.removeEventListener('audioprocess', onAudioProcess);
+    ws.close();
   };
 };
 

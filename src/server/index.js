@@ -1,11 +1,16 @@
 import express from 'express';
 import next from 'next';
+import createExpressWS from 'express-ws';
+
+import createGoogleSpeechAPI from './google-speech-api';
 
 async function createApp(env) {
   const nextApp = next({ dev: env.NODE_ENV !== 'production' });
 
   const app = express();
+  createExpressWS(app);
 
+  app.ws('/api/speech', createGoogleSpeechAPI());
   app.all('*', nextApp.getRequestHandler());
 
   await nextApp.prepare();
