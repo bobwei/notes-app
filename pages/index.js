@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col } from 'reactstrap';
 import { Button } from 'reactstrap';
+import { Form, FormGroup, Input } from 'reactstrap';
 
 import createMediaRecorder from '../src/utils/createMediaRecorder';
 
@@ -11,7 +12,7 @@ const fn = () => {
     <>
       <div className="main-container">
         <Container>
-          <Row>
+          <Row className="block">
             <Col md={{ size: 4, offset: 4 }}>
               {!mediaRecorder && (
                 <Button
@@ -33,12 +34,28 @@ const fn = () => {
               )}
             </Col>
           </Row>
+          <Row className="block">
+            <Col md={{ size: 8, offset: 2 }}>
+              <Form>
+                <FormGroup>
+                  <Input type="textarea" placeholder="Text" />
+                </FormGroup>
+              </Form>
+            </Col>
+          </Row>
         </Container>
       </div>
       <style jsx>
         {`
           .main-container {
             margin-top: 100px;
+          }
+        `}
+      </style>
+      <style jsx global>
+        {`
+          .block {
+            padding: 25px 0;
           }
         `}
       </style>
