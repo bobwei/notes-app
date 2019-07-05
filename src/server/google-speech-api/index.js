@@ -8,7 +8,7 @@ const fn = () => {
       sampleRateHertz: 16000,
       languageCode: 'zh-TW',
     };
-    const recognizeStream = client.streamingRecognize({ config, interimResults: false });
+    const recognizeStream = client.streamingRecognize({ config, interimResults: true });
     recognizeStream
       .on('error', (error) => {
         console.error(error);

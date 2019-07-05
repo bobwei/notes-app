@@ -10,10 +10,17 @@ import createStreamToServer from '../src/utils/createStreamToServer';
 const fn = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [text, setText] = useState('');
+  const [inProgressText, setInProgressText] = useState('');
   useEffect(() => {
     if (isRecording) {
-      const recording = startRecording({ setText });
+      const recording = startRecording({ setText, setInProgressText });
       return () => recording.then((cleanUp) => cleanUp());
+    }
+    if (!isRecording) {
+      setInProgressText('');
+      if (inProgressText) {
+        setText((val) => inProgressText + '\n\n' + val);
+      }
     }
   }, [isRecording]);
   return (
@@ -29,11 +36,16 @@ const fn = () => {
           </Row>
           <Row className="block">
             <Col md={{ size: 8, offset: 2 }}>
+              <div className="form-control">{inProgressText || 'No one speaking...'}</div>
+            </Col>
+          </Row>
+          <Row className="block">
+            <Col md={{ size: 8, offset: 2 }}>
               <Form>
                 <FormGroup>
                   <Input
                     type="textarea"
-                    placeholder="Text"
+                    placeholder="Transcription"
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     rows={20}
@@ -64,7 +76,7 @@ const fn = () => {
 
 export default fn;
 
-async function startRecording({ setText }) {
+async function startRecording({ setText, setInProgressText }) {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   const config = { audioBitsPerSecond: 128000, mimeType: 'audio/webm' };
   const mediaRecorder = new MediaRecorder(stream, config);
@@ -72,8 +84,18 @@ async function startRecording({ setText }) {
   const cleanUpStreamToServer = createStreamToServer({
     stream,
     onTranscripted: R.pipe(
-      R.path(['results', 0, 'alternatives', 0, 'transcript']),
-      (val) => setText((text) => val + '\n\n' + text),
+      R.applySpec({
+        transcript: R.path(['results', 0, 'alternatives', 0, 'transcript']),
+        isFinal: R.path(['results', 0, 'isFinal']),
+      }),
+      ({ transcript, isFinal }) => {
+        if (!isFinal) {
+          setInProgressText(transcript);
+          return;
+        }
+        setInProgressText('');
+        setText((text) => transcript + '\n\n' + text);
+      },
     ),
   });
   return () => {
