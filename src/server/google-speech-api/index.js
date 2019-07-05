@@ -14,7 +14,10 @@ const fn = () => {
         console.error(error);
       })
       .on('data', (data) => {
-        ws.send(JSON.stringify(data));
+        console.log(JSON.stringify(data));
+        if (ws.readyState === ws.OPEN) {
+          ws.send(JSON.stringify(data));
+        }
       });
 
     ws.on('message', (data) => {
