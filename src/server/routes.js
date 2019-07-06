@@ -2,6 +2,6 @@ import createRoutes from 'next-routes';
 
 const routes = createRoutes();
 
-routes.add('index', '/meetings/:meetingId');
+routes.add('note', '/notes/:noteId');
 
 export default routes;

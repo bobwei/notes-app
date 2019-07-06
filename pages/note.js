@@ -9,16 +9,16 @@ import 'firebase/firestore';
 
 import createStreamToServer from '../src/utils/createStreamToServer';
 
-const Comp = ({ meetingId }) => {
+const Comp = ({ noteId }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [text, setText] = useState(null);
   const [inProgressText, setInProgressText] = useState('');
   useEffect(() => {
-    if (meetingId) {
+    if (noteId) {
       const db = firebase.firestore();
       const unsubscribe = db
-        .collection('meetings')
-        .doc(meetingId)
+        .collection('notes')
+        .doc(noteId)
         .onSnapshot((doc) => {
           console.log(doc.data());
         });
@@ -26,7 +26,7 @@ const Comp = ({ meetingId }) => {
         unsubscribe();
       };
     }
-  }, meetingId);
+  }, [noteId]);
   useEffect(() => {
     if (isRecording) {
       const recording = startRecording({ setText, setInProgressText });
@@ -91,7 +91,7 @@ const Comp = ({ meetingId }) => {
 };
 
 Comp.defaultProps = {
-  meetingId: null,
+  noteId: null,
 };
 
 Comp.getInitialProps = ({ query }) => {
