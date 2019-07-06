@@ -7,7 +7,7 @@ import * as R from 'ramda';
 
 import createStreamToServer from '../src/utils/createStreamToServer';
 
-const fn = () => {
+const Comp = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [text, setText] = useState('');
   const [inProgressText, setInProgressText] = useState('');
@@ -74,7 +74,7 @@ const fn = () => {
   );
 };
 
-export default fn;
+export default Comp;
 
 async function startRecording({ setText, setInProgressText }) {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
