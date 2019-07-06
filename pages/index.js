@@ -4,13 +4,29 @@ import { Container, Row, Col } from 'reactstrap';
 import { Button } from 'reactstrap';
 import { Form, FormGroup, Input } from 'reactstrap';
 import * as R from 'ramda';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 
 import createStreamToServer from '../src/utils/createStreamToServer';
 
-const Comp = () => {
+const Comp = ({ meetingId }) => {
   const [isRecording, setIsRecording] = useState(false);
-  const [text, setText] = useState('');
+  const [text, setText] = useState(null);
   const [inProgressText, setInProgressText] = useState('');
+  useEffect(() => {
+    if (meetingId) {
+      const db = firebase.firestore();
+      const unsubscribe = db
+        .collection('meetings')
+        .doc(meetingId)
+        .onSnapshot((doc) => {
+          console.log(doc.data());
+        });
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, meetingId);
   useEffect(() => {
     if (isRecording) {
       const recording = startRecording({ setText, setInProgressText });
@@ -46,7 +62,7 @@ const Comp = () => {
                   <Input
                     type="textarea"
                     placeholder="Transcription"
-                    value={text}
+                    value={text || ''}
                     onChange={(e) => setText(e.target.value)}
                     rows={20}
                   />
@@ -72,6 +88,14 @@ const Comp = () => {
       </style>
     </>
   );
+};
+
+Comp.defaultProps = {
+  meetingId: null,
+};
+
+Comp.getInitialProps = ({ query }) => {
+  return { ...query };
 };
 
 export default Comp;
