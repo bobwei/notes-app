@@ -4,6 +4,7 @@ import createExpressWS from 'express-ws';
 import 'dotenv/config';
 
 import createGoogleSpeechAPI from './google-speech-api';
+import nextRoutes from './routes';
 
 async function createApp(env) {
   const nextApp = next({ dev: env.NODE_ENV !== 'production' });
@@ -12,7 +13,7 @@ async function createApp(env) {
   createExpressWS(app);
 
   app.ws('/api/speech', createGoogleSpeechAPI());
-  app.all('*', nextApp.getRequestHandler());
+  app.all('*', nextRoutes.getRequestHandler(nextApp));
 
   await nextApp.prepare();
 
