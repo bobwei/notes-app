@@ -13,38 +13,8 @@ const Comp = ({ noteId }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [text, setText] = useState('');
   const [inProgressText, setInProgressText] = useState('');
-  useEffect(() => {
-    if (noteId) {
-      const db = firebase.firestore();
-      const unsubscribe = db
-        .collection('notes')
-        .doc(noteId)
-        .collection('messages')
-        .orderBy('createdAt', 'desc')
-        .onSnapshot((snapshot) => {
-          const data = snapshot.docs
-            .map((obj) => obj.data())
-            .map((obj) => obj.text)
-            .join('\n\n');
-          setText(data);
-        });
-      return () => {
-        unsubscribe();
-      };
-    }
-  }, [noteId]);
-  useEffect(() => {
-    if (isRecording) {
-      const recording = startRecording({ noteId, setInProgressText });
-      return () => recording.then((cleanUp) => cleanUp());
-    }
-    if (!isRecording) {
-      setInProgressText('');
-      if (inProgressText) {
-        createMessage({ noteId, text: inProgressText });
-      }
-    }
-  }, [isRecording]);
+  useDB({ noteId, setText });
+  useRecording({ isRecording, noteId, inProgressText, setInProgressText });
   return (
     <>
       <div className="main-container">
@@ -145,4 +115,42 @@ async function createMessage({ noteId, text }) {
       text,
       createdAt: new Date(),
     });
+}
+
+function useDB({ noteId, setText }) {
+  useEffect(() => {
+    if (noteId) {
+      const db = firebase.firestore();
+      const unsubscribe = db
+        .collection('notes')
+        .doc(noteId)
+        .collection('messages')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot((snapshot) => {
+          const data = snapshot.docs
+            .map((obj) => obj.data())
+            .map((obj) => obj.text)
+            .join('\n\n');
+          setText(data);
+        });
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [noteId]);
+}
+
+function useRecording({ isRecording, noteId, inProgressText, setInProgressText }) {
+  useEffect(() => {
+    if (isRecording) {
+      const recording = startRecording({ noteId, setInProgressText });
+      return () => recording.then((cleanUp) => cleanUp());
+    }
+    if (!isRecording) {
+      setInProgressText('');
+      if (inProgressText) {
+        createMessage({ noteId, text: inProgressText });
+      }
+    }
+  }, [isRecording]);
 }
