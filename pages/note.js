@@ -130,7 +130,7 @@ function useDB({ noteId, setText, textarea }) {
         .then((snapshot) => {
           const data = snapshot.docs
             .map((obj) => obj.data())
-            .map((obj) => obj.text)
+            .map(mapTextToDisplayText)
             .join('\n\n');
           setText(data);
           scrollToBottom(textarea);
@@ -146,7 +146,7 @@ function useDB({ noteId, setText, textarea }) {
           if (snapshot.docs.length) {
             const data = snapshot.docs
               .map((obj) => obj.data())
-              .map((obj) => obj.text)
+              .map(mapTextToDisplayText)
               .join('\n\n');
             setText((val) => val + '\n\n' + data);
             scrollToBottom(textarea);
@@ -179,4 +179,10 @@ function scrollToBottom(ref) {
   if ($el) {
     $el.scrollTop = $el.scrollHeight;
   }
+}
+
+function mapTextToDisplayText({ text, createdAt }) {
+  const t = createdAt.toDate();
+  return `${t.getMonth() + 1}/${t.getDate()} ${t.getHours()}:${t.getMinutes()}
+${text}`;
 }
