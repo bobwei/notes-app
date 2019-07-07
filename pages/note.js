@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col } from 'reactstrap';
 import { Button } from 'reactstrap';
-import { Form, FormGroup, Input } from 'reactstrap';
+import { Form, FormGroup } from 'reactstrap';
 import * as R from 'ramda';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -13,7 +13,8 @@ const Comp = ({ noteId }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [text, setText] = useState('');
   const [inProgressText, setInProgressText] = useState('');
-  useDB({ noteId, setText });
+  const textarea = useRef(null);
+  useDB({ noteId, setText, textarea });
   useRecording({ isRecording, noteId, inProgressText, setInProgressText });
   return (
     <>
@@ -35,12 +36,13 @@ const Comp = ({ noteId }) => {
             <Col md={{ size: 8, offset: 2 }}>
               <Form>
                 <FormGroup>
-                  <Input
-                    type="textarea"
+                  <textarea
+                    className="form-control"
                     placeholder="Transcription"
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     rows={20}
+                    ref={textarea}
                   />
                 </FormGroup>
               </Form>
@@ -117,7 +119,7 @@ async function createMessage({ noteId, text }) {
     });
 }
 
-function useDB({ noteId, setText }) {
+function useDB({ noteId, setText, textarea }) {
   useEffect(() => {
     if (noteId) {
       const db = firebase.firestore();
@@ -132,6 +134,7 @@ function useDB({ noteId, setText }) {
             .map((obj) => obj.text)
             .join('\n\n');
           setText(data);
+          scrollToBottom(textarea);
         });
 
       const unsubscribe = db
@@ -145,7 +148,8 @@ function useDB({ noteId, setText }) {
               .map((obj) => obj.data())
               .map((obj) => obj.text)
               .join('\n\n');
-            setText(data);
+            setText((val) => val + '\n\n' + data);
+            scrollToBottom(textarea);
           }
         });
       return () => {
@@ -168,4 +172,11 @@ function useRecording({ isRecording, noteId, inProgressText, setInProgressText }
       }
     }
   }, [isRecording]);
+}
+
+function scrollToBottom(ref) {
+  const $el = ref.current;
+  if ($el) {
+    $el.scrollTop = $el.scrollHeight;
+  }
 }
