@@ -121,17 +121,32 @@ function useDB({ noteId, setText }) {
   useEffect(() => {
     if (noteId) {
       const db = firebase.firestore();
-      const unsubscribe = db
-        .collection('notes')
+
+      db.collection('notes')
         .doc(noteId)
         .collection('messages')
-        .orderBy('createdAt', 'desc')
-        .onSnapshot((snapshot) => {
+        .get()
+        .then((snapshot) => {
           const data = snapshot.docs
             .map((obj) => obj.data())
             .map((obj) => obj.text)
             .join('\n\n');
           setText(data);
+        });
+
+      const unsubscribe = db
+        .collection('notes')
+        .doc(noteId)
+        .collection('messages')
+        .where('createdAt', '>', new Date())
+        .onSnapshot((snapshot) => {
+          if (snapshot.docs.length) {
+            const data = snapshot.docs
+              .map((obj) => obj.data())
+              .map((obj) => obj.text)
+              .join('\n\n');
+            setText(data);
+          }
         });
       return () => {
         unsubscribe();
