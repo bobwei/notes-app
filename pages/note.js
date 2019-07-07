@@ -11,7 +11,7 @@ import createStreamToServer from '../src/utils/createStreamToServer';
 
 const Comp = ({ noteId }) => {
   const [isRecording, setIsRecording] = useState(false);
-  const [text, setText] = useState(null);
+  const [text, setText] = useState('');
   const [inProgressText, setInProgressText] = useState('');
   useEffect(() => {
     if (noteId) {
@@ -19,8 +19,14 @@ const Comp = ({ noteId }) => {
       const unsubscribe = db
         .collection('notes')
         .doc(noteId)
-        .onSnapshot((doc) => {
-          console.log(doc.data());
+        .collection('messages')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot((snapshot) => {
+          const data = snapshot.docs
+            .map((obj) => obj.data())
+            .map((obj) => obj.text)
+            .join('\n\n');
+          setText(data);
         });
       return () => {
         unsubscribe();
@@ -29,13 +35,13 @@ const Comp = ({ noteId }) => {
   }, [noteId]);
   useEffect(() => {
     if (isRecording) {
-      const recording = startRecording({ setText, setInProgressText });
+      const recording = startRecording({ noteId, setInProgressText });
       return () => recording.then((cleanUp) => cleanUp());
     }
     if (!isRecording) {
       setInProgressText('');
       if (inProgressText) {
-        setText((val) => inProgressText + '\n\n' + val);
+        createMessage({ noteId, text: inProgressText });
       }
     }
   }, [isRecording]);
@@ -62,7 +68,7 @@ const Comp = ({ noteId }) => {
                   <Input
                     type="textarea"
                     placeholder="Transcription"
-                    value={text || ''}
+                    value={text}
                     onChange={(e) => setText(e.target.value)}
                     rows={20}
                   />
@@ -100,7 +106,7 @@ Comp.getInitialProps = ({ query }) => {
 
 export default Comp;
 
-async function startRecording({ setText, setInProgressText }) {
+async function startRecording({ noteId, setInProgressText }) {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   const config = { audioBitsPerSecond: 128000, mimeType: 'audio/webm' };
   const mediaRecorder = new MediaRecorder(stream, config);
@@ -118,7 +124,7 @@ async function startRecording({ setText, setInProgressText }) {
           return;
         }
         setInProgressText('');
-        setText((text) => transcript + '\n\n' + text);
+        createMessage({ noteId, text: transcript });
       },
     ),
   });
@@ -127,4 +133,16 @@ async function startRecording({ setText, setInProgressText }) {
     mediaRecorder.stop();
     stream.getTracks()[0].stop();
   };
+}
+
+async function createMessage({ noteId, text }) {
+  const db = firebase.firestore();
+  await db
+    .collection('notes')
+    .doc(noteId)
+    .collection('messages')
+    .add({
+      text,
+      createdAt: new Date(),
+    });
 }
