@@ -15,23 +15,11 @@ const Comp = ({ noteId }) => {
   const [inProgressText, setInProgressText] = useState('');
   const textarea = useRef(null);
   useDB({ noteId, setText, textarea });
-  useRecording({ isRecording, noteId, inProgressText, setInProgressText });
+  useRecording({ isRecording, noteId, inProgressText, setInProgressText, textarea });
   return (
     <>
       <div className="main-container">
         <Container>
-          <Row className="block">
-            <Col md={{ size: 4, offset: 4 }}>
-              <Button block color="primary" onClick={() => setIsRecording((val) => !val)}>
-                {!isRecording ? 'Record' : 'Stop'}
-              </Button>
-            </Col>
-          </Row>
-          <Row className="block">
-            <Col md={{ size: 8, offset: 2 }}>
-              <div className="form-control">{inProgressText || 'No one speaking...'}</div>
-            </Col>
-          </Row>
           <Row className="block">
             <Col md={{ size: 8, offset: 2 }}>
               <Form>
@@ -39,7 +27,7 @@ const Comp = ({ noteId }) => {
                   <textarea
                     className="form-control"
                     placeholder="Transcription"
-                    value={text}
+                    value={inProgressText ? text + '\n\n' + inProgressText : text}
                     onChange={(e) => setText(e.target.value)}
                     rows={20}
                     ref={textarea}
@@ -48,12 +36,19 @@ const Comp = ({ noteId }) => {
               </Form>
             </Col>
           </Row>
+          <Row className="block">
+            <Col md={{ size: 4, offset: 4 }}>
+              <Button block color="primary" onClick={() => setIsRecording((val) => !val)}>
+                {!isRecording ? 'Record' : 'Stop'}
+              </Button>
+            </Col>
+          </Row>
         </Container>
       </div>
       <style jsx>
         {`
           .main-container {
-            margin-top: 100px;
+            margin-top: 50px;
           }
         `}
       </style>
@@ -78,7 +73,7 @@ Comp.getInitialProps = ({ query }) => {
 
 export default Comp;
 
-async function startRecording({ noteId, setInProgressText }) {
+async function startRecording({ noteId, setInProgressText, textarea }) {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   const config = { audioBitsPerSecond: 128000, mimeType: 'audio/webm' };
   const mediaRecorder = new MediaRecorder(stream, config);
@@ -93,6 +88,7 @@ async function startRecording({ noteId, setInProgressText }) {
       ({ transcript, isFinal }) => {
         if (!isFinal) {
           setInProgressText(transcript);
+          scrollToBottom(textarea);
           return;
         }
         setInProgressText('');
@@ -161,10 +157,10 @@ function useDB({ noteId, setText, textarea }) {
   }, [noteId]);
 }
 
-function useRecording({ isRecording, noteId, inProgressText, setInProgressText }) {
+function useRecording({ isRecording, noteId, inProgressText, setInProgressText, textarea }) {
   useEffect(() => {
     if (isRecording) {
-      const recording = startRecording({ noteId, setInProgressText });
+      const recording = startRecording({ noteId, setInProgressText, textarea });
       return () => recording.then((cleanUp) => cleanUp());
     }
     if (!isRecording) {
