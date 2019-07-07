@@ -27,11 +27,10 @@ const Comp = ({ noteId }) => {
               <Form>
                 <FormGroup>
                   <textarea
-                    className="form-control"
+                    className="form-control textarea"
                     placeholder="Transcription"
                     value={inProgressText ? text + '\n\n' + inProgressText : text}
                     onChange={(e) => setText(e.target.value)}
-                    rows={20}
                     ref={textarea}
                   />
                 </FormGroup>
@@ -49,6 +48,9 @@ const Comp = ({ noteId }) => {
         {`
           .main-container {
             margin-top: 50px;
+          }
+          .textarea {
+            height: calc(100vh - 50px * 3 - 25px * 4 - 115px);
           }
         `}
       </style>
