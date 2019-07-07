@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import { Container, Row, Col } from 'reactstrap';
-import { Button } from 'reactstrap';
 import { Form, FormGroup } from 'reactstrap';
 import * as R from 'ramda';
 import * as firebase from 'firebase/app';
