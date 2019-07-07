@@ -16,7 +16,7 @@ const Comp = ({ noteId }) => {
   const [text, setText] = useState('');
   const [inProgressText, setInProgressText] = useState('');
   const textarea = useRef(null);
-  useDB({ noteId, setText, textarea });
+  useDB({ noteId, setText, setInProgressText, textarea });
   useRecording({ isRecording, noteId, inProgressText, setInProgressText, textarea });
   return (
     <>
@@ -117,7 +117,7 @@ async function createMessage({ noteId, text }) {
     });
 }
 
-function useDB({ noteId, setText, textarea }) {
+function useDB({ noteId, setText, setInProgressText, textarea }) {
   useEffect(() => {
     if (noteId) {
       const db = firebase.firestore();
@@ -149,6 +149,7 @@ function useDB({ noteId, setText, textarea }) {
               .map(mapTextToDisplayText)
               .join('\n\n');
             setText((val) => val + '\n\n' + data);
+            setInProgressText('');
             scrollToBottom(textarea);
           }
         });
