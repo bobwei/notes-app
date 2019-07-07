@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/css/all.css';
 import { Container, Row, Col } from 'reactstrap';
 import { Button } from 'reactstrap';
 import { Form, FormGroup } from 'reactstrap';
@@ -8,6 +9,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 
 import createStreamToServer from '../src/utils/createStreamToServer';
+import Microphone from '../src/components/Microphone';
 
 const Comp = ({ noteId }) => {
   const [isRecording, setIsRecording] = useState(false);
@@ -37,10 +39,8 @@ const Comp = ({ noteId }) => {
             </Col>
           </Row>
           <Row className="block">
-            <Col md={{ size: 4, offset: 4 }}>
-              <Button block color="primary" onClick={() => setIsRecording((val) => !val)}>
-                {!isRecording ? 'Record' : 'Stop'}
-              </Button>
+            <Col md={{ size: 4, offset: 4 }} className="text-center">
+              <Microphone isRecording={isRecording} onClick={() => setIsRecording((val) => !val)} />
             </Col>
           </Row>
         </Container>
