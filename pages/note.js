@@ -127,6 +127,7 @@ function useDB({ noteId, setText, textarea }) {
       db.collection('notes')
         .doc(noteId)
         .collection('messages')
+        .orderBy('createdAt', 'asc')
         .get()
         .then((snapshot) => {
           const data = snapshot.docs
@@ -141,6 +142,7 @@ function useDB({ noteId, setText, textarea }) {
         .collection('notes')
         .doc(noteId)
         .collection('messages')
+        .orderBy('createdAt', 'asc')
         .where('createdAt', '>', new Date())
         .onSnapshot((snapshot) => {
           if (snapshot.docs.length) {
