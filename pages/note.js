@@ -6,6 +6,7 @@ import { Form, FormGroup } from 'reactstrap';
 import * as R from 'ramda';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
+import shortid from 'shortid';
 
 import createStreamToServer from '../src/utils/createStreamToServer';
 import Microphone from '../src/components/Microphone';
@@ -106,6 +107,11 @@ async function startRecording({ noteId, setInProgressText, textarea }) {
 
 async function createMessage({ noteId, text }) {
   const db = firebase.firestore();
+  const storageKey = 'userId';
+  if (!localStorage.getItem(storageKey)) {
+    localStorage.setItem(storageKey, shortid.generate());
+  }
+  const userId = localStorage.getItem(storageKey);
   await db
     .collection('notes')
     .doc(noteId)
@@ -113,6 +119,7 @@ async function createMessage({ noteId, text }) {
     .add({
       text,
       createdAt: new Date(),
+      userId,
     });
 }
 
@@ -181,8 +188,8 @@ function scrollToBottom(ref) {
   }
 }
 
-function mapTextToDisplayText({ text, createdAt }) {
+function mapTextToDisplayText({ userId, text, createdAt }) {
   const t = createdAt.toDate();
   return `${t.getMonth() + 1}/${t.getDate()} ${t.getHours()}:${t.getMinutes()}
-${text}`;
+${userId}: ${text}`;
 }
