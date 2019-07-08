@@ -150,8 +150,10 @@ function useDB({ noteId, setText, setInProgressText, textarea }) {
         .where('createdAt', '>', new Date())
         .onSnapshot((snapshot) => {
           if (snapshot.docs.length) {
-            const data = snapshot.docs
-              .map((obj) => obj.data())
+            const data = snapshot
+              .docChanges()
+              .filter((change) => change.type === 'added')
+              .map((change) => change.doc.data())
               .map(mapTextToDisplayText)
               .join('\n\n');
             setText((val) => val + '\n\n' + data);
