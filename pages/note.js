@@ -16,9 +16,8 @@ const Comp = ({ noteId }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [messages, setMessages] = useState([]);
   const [inProgressText, setInProgressText] = useState('');
-  const textarea = useRef(null);
-  useDB({ noteId, setMessages, setInProgressText, textarea });
-  useRecording({ isRecording, noteId, inProgressText, setInProgressText, textarea });
+  useDB({ noteId, setMessages, setInProgressText });
+  useRecording({ isRecording, noteId, inProgressText, setInProgressText });
   return (
     <>
       <div className="main-container">
@@ -67,7 +66,7 @@ Comp.getInitialProps = ({ query }) => {
 
 export default Comp;
 
-async function startRecording({ noteId, setInProgressText, textarea }) {
+async function startRecording({ noteId, setInProgressText }) {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   const config = { audioBitsPerSecond: 128000, mimeType: 'audio/webm' };
   const mediaRecorder = new MediaRecorder(stream, config);
@@ -82,7 +81,6 @@ async function startRecording({ noteId, setInProgressText, textarea }) {
       ({ transcript, isFinal }) => {
         if (!isFinal) {
           setInProgressText(transcript);
-          scrollToBottom(textarea);
           return;
         }
         setInProgressText('');
@@ -115,7 +113,7 @@ async function createMessage({ noteId, text }) {
     });
 }
 
-function useDB({ noteId, setMessages, setInProgressText, textarea }) {
+function useDB({ noteId, setMessages, setInProgressText }) {
   useEffect(() => {
     if (noteId) {
       const db = firebase.firestore();
@@ -131,7 +129,6 @@ function useDB({ noteId, setMessages, setInProgressText, textarea }) {
             return { id, ...obj.data() };
           });
           setMessages(data);
-          scrollToBottom(textarea);
         });
 
       const unsubscribe = db
@@ -151,7 +148,6 @@ function useDB({ noteId, setMessages, setInProgressText, textarea }) {
               });
             setMessages((messages) => [...messages, ...data]);
             setInProgressText('');
-            scrollToBottom(textarea);
           }
         });
       return () => {
@@ -161,10 +157,10 @@ function useDB({ noteId, setMessages, setInProgressText, textarea }) {
   }, [noteId]);
 }
 
-function useRecording({ isRecording, noteId, inProgressText, setInProgressText, textarea }) {
+function useRecording({ isRecording, noteId, inProgressText, setInProgressText }) {
   useEffect(() => {
     if (isRecording) {
-      const recording = startRecording({ noteId, setInProgressText, textarea });
+      const recording = startRecording({ noteId, setInProgressText });
       return () => recording.then((cleanUp) => cleanUp());
     }
     if (!isRecording) {
@@ -174,11 +170,4 @@ function useRecording({ isRecording, noteId, inProgressText, setInProgressText, 
       }
     }
   }, [isRecording]);
-}
-
-function scrollToBottom(ref) {
-  const $el = ref.current;
-  if ($el) {
-    $el.scrollTop = $el.scrollHeight;
-  }
 }

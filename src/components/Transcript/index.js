@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import ColorHash from 'color-hash';
 
 const Comp = ({ messages }) => {
+  const container = useRef(null);
+  useEffect(() => {
+    scrollToBottom(container);
+  }, [messages]);
   return (
     <>
-      <div className="container">
+      <div className="container" ref={container}>
         {messages.map(({ id, text, createdAt, userId }, index) => {
           return (
             <div key={id || index} className="message">
@@ -58,6 +62,13 @@ const Comp = ({ messages }) => {
 };
 
 export default Comp;
+
+function scrollToBottom(ref) {
+  const $el = ref.current;
+  if ($el) {
+    $el.scrollTop = $el.scrollHeight;
+  }
+}
 
 function mapTime(createdAt) {
   const t = createdAt.toDate();
