@@ -25,6 +25,7 @@ const Comp = ({ messages }) => {
             height: calc(100vh - 50px * 3 - 25px * 4 - 115px);
             border: 1px solid #eee;
             padding: 8px;
+            overflow-y: auto;
           }
           .message {
             margin: 15px 0;
