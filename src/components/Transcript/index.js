@@ -32,6 +32,7 @@ const Comp = ({ messages }) => {
             overflow-y: auto;
           }
           .message {
+            min-height: 50px;
             margin: 15px 0;
           }
           .user {
@@ -40,14 +41,14 @@ const Comp = ({ messages }) => {
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 50px;
+            width: 40px;
             height: 50px;
           }
           .user > .fa-user {
             color: #ddd;
           }
           .info {
-            padding-left: 50px;
+            padding-left: 40px;
           }
           .time {
             color: #8294a5;
