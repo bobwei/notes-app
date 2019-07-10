@@ -126,7 +126,10 @@ function useDB({ noteId, setMessages, setInProgressText, textarea }) {
         .orderBy('createdAt', 'asc')
         .get()
         .then((snapshot) => {
-          const data = snapshot.docs.map((obj) => obj.data());
+          const data = snapshot.docs.map((obj) => {
+            const { id } = obj;
+            return { id, ...obj.data() };
+          });
           setMessages(data);
           scrollToBottom(textarea);
         });
@@ -142,7 +145,10 @@ function useDB({ noteId, setMessages, setInProgressText, textarea }) {
             const data = snapshot
               .docChanges()
               .filter((change) => change.type === 'added')
-              .map((change) => change.doc.data());
+              .map((change) => {
+                const { id } = change.doc;
+                return { id, ...change.doc.data() };
+              });
             setMessages((messages) => [...messages, ...data]);
             setInProgressText('');
             scrollToBottom(textarea);
