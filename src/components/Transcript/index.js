@@ -5,9 +5,9 @@ const Comp = ({ messages }) => {
   return (
     <>
       <div className="container">
-        {messages.map(({ id, text, createdAt, userId }) => {
+        {messages.map(({ id, text, createdAt, userId }, index) => {
           return (
-            <div key={id} className="message">
+            <div key={id || index} className="message">
               <div className="user">
                 <i className="fas fa-user" style={{ color: new ColorHash().hex(userId) }} />
               </div>
