@@ -1,14 +1,15 @@
 import React from 'react';
+import ColorHash from 'color-hash';
 
 const Comp = ({ messages }) => {
   return (
     <>
       <div className="container">
-        {messages.map(({ id, text, createdAt }) => {
+        {messages.map(({ id, text, createdAt, userId }) => {
           return (
             <div key={id} className="message">
               <div className="user">
-                <i className="fas fa-user" />
+                <i className="fas fa-user" style={{ color: new ColorHash().hex(userId) }} />
               </div>
               <div className="info">
                 <div className="time">{createdAt && mapTime(createdAt)}</div>
