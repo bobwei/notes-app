@@ -10,13 +10,14 @@ import shortid from 'shortid';
 
 import createStreamToServer from '../src/utils/createStreamToServer';
 import Microphone from '../src/components/Microphone';
+import Transcript from '../src/components/Transcript';
 
 const Comp = ({ noteId }) => {
   const [isRecording, setIsRecording] = useState(false);
-  const [text, setText] = useState('');
+  const [messages, setMessages] = useState([]);
   const [inProgressText, setInProgressText] = useState('');
   const textarea = useRef(null);
-  useDB({ noteId, setText, setInProgressText, textarea });
+  useDB({ noteId, setMessages, setInProgressText, textarea });
   useRecording({ isRecording, noteId, inProgressText, setInProgressText, textarea });
   return (
     <>
@@ -26,13 +27,7 @@ const Comp = ({ noteId }) => {
             <Col md={{ size: 8, offset: 2 }}>
               <Form>
                 <FormGroup>
-                  <textarea
-                    className="form-control textarea"
-                    placeholder="Transcription"
-                    value={inProgressText ? text + '\n\n' + inProgressText : text}
-                    onChange={(e) => setText(e.target.value)}
-                    ref={textarea}
-                  />
+                  <Transcript messages={!inProgressText ? messages : [...messages, { text: inProgressText }]} />
                 </FormGroup>
               </Form>
             </Col>
@@ -48,9 +43,6 @@ const Comp = ({ noteId }) => {
         {`
           .main-container {
             margin-top: 50px;
-          }
-          .textarea {
-            height: calc(100vh - 50px * 3 - 25px * 4 - 115px);
           }
         `}
       </style>
@@ -123,7 +115,7 @@ async function createMessage({ noteId, text }) {
     });
 }
 
-function useDB({ noteId, setText, setInProgressText, textarea }) {
+function useDB({ noteId, setMessages, setInProgressText, textarea }) {
   useEffect(() => {
     if (noteId) {
       const db = firebase.firestore();
@@ -134,11 +126,8 @@ function useDB({ noteId, setText, setInProgressText, textarea }) {
         .orderBy('createdAt', 'asc')
         .get()
         .then((snapshot) => {
-          const data = snapshot.docs
-            .map((obj) => obj.data())
-            .map(mapTextToDisplayText)
-            .join('\n\n');
-          setText(data);
+          const data = snapshot.docs.map((obj) => obj.data());
+          setMessages(data);
           scrollToBottom(textarea);
         });
 
@@ -153,10 +142,8 @@ function useDB({ noteId, setText, setInProgressText, textarea }) {
             const data = snapshot
               .docChanges()
               .filter((change) => change.type === 'added')
-              .map((change) => change.doc.data())
-              .map(mapTextToDisplayText)
-              .join('\n\n');
-            setText((val) => val + '\n\n' + data);
+              .map((change) => change.doc.data());
+            setMessages((messages) => [...messages, ...data]);
             setInProgressText('');
             scrollToBottom(textarea);
           }
@@ -188,10 +175,4 @@ function scrollToBottom(ref) {
   if ($el) {
     $el.scrollTop = $el.scrollHeight;
   }
-}
-
-function mapTextToDisplayText({ userId, text, createdAt }) {
-  const t = createdAt.toDate();
-  return `${t.getMonth() + 1}/${t.getDate()} ${t.getHours()}:${t.getMinutes()}
-${userId}: ${text}`;
 }
