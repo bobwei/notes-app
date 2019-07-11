@@ -16,6 +16,10 @@
     "node": ">=8.10.0",
     "yarn": "^1.12.3"
   },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
