@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* appTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -16,8 +17,10 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* appTests.m */; };
 		3655C8C0FD69B35A51C9D38E /* libPods-app-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB80FCDF294AE7D755AD411B /* libPods-app-tvOSTests.a */; };
+		3C89B37822D8F5A200187071 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		70592E4FC67A0C8FC3AE51F3 /* libPods-app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B6A2ADB2F654347EE9FD027 /* libPods-app.a */; };
 		7F8786CB475CA78F71C48B28 /* libPods-app-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B865284780BBFADCF009F3B /* libPods-app-tvOS.a */; };
+		ACE04110D95642F7A9743F3F /* libRNAudioRecord.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CAFDE96A6AF4793AD2A19F6 /* libRNAudioRecord.a */; };
 		C1A2A01CA97FA129F9507BA7 /* libPods-appTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE12A9BD261058D9E4B6BE27 /* libPods-appTests.a */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +38,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "app-tvOS";
+		};
+		3C89B38722D8FB6F00187071 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A316C5EB69D34C80839C33BC /* RNAudioRecord.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNAudioRecord;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -60,6 +70,8 @@
 		84E7D52A51355C48EDEE4BFD /* Pods-app-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-app-tvOSTests/Pods-app-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		851DDDE78AB5BAB06A442CC0 /* Pods-app-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-app-tvOS/Pods-app-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		9B6A2ADB2F654347EE9FD027 /* libPods-app.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-app.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CAFDE96A6AF4793AD2A19F6 /* libRNAudioRecord.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNAudioRecord.a; sourceTree = "<group>"; };
+		A316C5EB69D34C80839C33BC /* RNAudioRecord.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNAudioRecord.xcodeproj; path = "../node_modules/react-native-audio-record/ios/RNAudioRecord.xcodeproj"; sourceTree = "<group>"; };
 		A584C3E9DC31A477126CAFCF /* Pods-app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app.debug.xcconfig"; path = "Pods/Target Support Files/Pods-app/Pods-app.debug.xcconfig"; sourceTree = "<group>"; };
 		CE12A9BD261058D9E4B6BE27 /* libPods-appTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-appTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -81,7 +93,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C89B37822D8F5A200187071 /* (null) in Frameworks */,
 				70592E4FC67A0C8FC3AE51F3 /* libPods-app.a in Frameworks */,
+				ACE04110D95642F7A9743F3F /* libRNAudioRecord.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,10 +162,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3C89B38422D8FB6F00187071 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3C89B38822D8FB6F00187071 /* libRNAudioRecord.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		3CB52AD322D7A7D00036473D /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				C291B7229A374220BB2DF3CF /* libRNAudioRecord.a */,
+				9CAFDE96A6AF4793AD2A19F6 /* libRNAudioRecord.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -174,6 +196,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A316C5EB69D34C80839C33BC /* RNAudioRecord.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -335,6 +358,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 3C89B38422D8FB6F00187071 /* Products */;
+					ProjectRef = A316C5EB69D34C80839C33BC /* RNAudioRecord.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -347,6 +374,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		3C89B38822D8FB6F00187071 /* libRNAudioRecord.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNAudioRecord.a;
+			remoteRef = 3C89B38722D8FB6F00187071 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -711,12 +745,14 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-audio-record/ios",
 				);
 				INFOPLIST_FILE = appTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -738,12 +774,14 @@
 				DEVELOPMENT_TEAM = 5TQ7FSJZFU;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-audio-record/ios",
 				);
 				INFOPLIST_FILE = appTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -766,6 +804,10 @@
 				DEVELOPMENT_TEAM = 5TQ7FSJZFU;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-audio-record/ios",
+					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native/React/Base/**",
+					"$(SRCROOT)/../node_modules/react-native-audio-record/ios",
 				);
 				INFOPLIST_FILE = app/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -789,6 +831,10 @@
 				DEVELOPMENT_TEAM = 5TQ7FSJZFU;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-audio-record/ios",
+					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native/React/Base/**",
+					"$(SRCROOT)/../node_modules/react-native-audio-record/ios",
 				);
 				INFOPLIST_FILE = app/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -818,11 +864,13 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-audio-record/ios",
 				);
 				INFOPLIST_FILE = "app-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -852,11 +900,13 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-audio-record/ios",
 				);
 				INFOPLIST_FILE = "app-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -885,11 +935,13 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-audio-record/ios",
 				);
 				INFOPLIST_FILE = "app-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -918,11 +970,13 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-audio-record/ios",
 				);
 				INFOPLIST_FILE = "app-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",

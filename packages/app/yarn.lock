@@ -5109,6 +5109,11 @@ react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
   integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
 
+react-native-audio-record@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-audio-record/-/react-native-audio-record-0.2.0.tgz#7ea34b25afc5f8c41ae530f6dabeae1767605d99"
+  integrity sha512-txE6gfJ4tzZ7oC2qhA3SHqxoMIf6dmSInpDK9+7Aa0iJYS6Hgv4yMhne+xRTYRnSgBShOylZA/O4xtK4JJ3jxA==
+
 react-native@0.60.1:
   version "0.60.1"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.60.1.tgz#591a34abf4ad75e33d2e4abc1ee0ccf4edf6266e"

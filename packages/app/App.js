@@ -1,8 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Button, StyleSheet } from 'react-native';
+import AudioRecord from 'react-native-audio-record';
 
 const App = () => {
   const [isRecording, setIsRecording] = useState(false);
+  useEffect(() => {
+    if (isRecording) {
+      const options = {
+        sampleRate: 16000,
+      };
+      AudioRecord.init(options);
+      AudioRecord.start();
+      AudioRecord.on('data', (data) => {
+        console.log(data);
+      });
+      return () => {
+        AudioRecord.stop();
+      };
+    }
+  }, [isRecording]);
   return (
     <View style={styles.container}>
       <Button
