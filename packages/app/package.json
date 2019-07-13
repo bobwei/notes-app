@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "react": "16.8.6",
-    "react-native": "0.60.1"
+    "react-native": "0.60.1",
+    "react-native-audio-record": "https://github.com/bobwei/react-native-audio-record.git"
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",
