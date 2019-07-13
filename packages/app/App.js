@@ -1,22 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 import AudioRecord from 'react-native-audio-record';
+import { Buffer } from 'buffer';
 
 const App = () => {
   const [isRecording, setIsRecording] = useState(false);
   useEffect(() => {
     if (isRecording) {
-      const options = {
-        sampleRate: 16000,
-      };
-      AudioRecord.init(options);
-      AudioRecord.start();
-      AudioRecord.on('data', (data) => {
-        console.log(data);
-      });
-      return () => {
-        AudioRecord.stop();
-      };
+      return startRecording();
     }
   }, [isRecording]);
   return (
@@ -29,6 +20,24 @@ const App = () => {
     </View>
   );
 };
+
+function startRecording() {
+  const options = {
+    sampleRate: 16000,
+  };
+  const ws = new WebSocket('ws://192.168.31.191:3000/api/speech');
+  AudioRecord.init(options);
+  AudioRecord.start();
+  AudioRecord.on('data', (data) => {
+    const arr8 = Buffer.from(data, 'base64');
+    const samples = new Int16Array(arr8.buffer);
+    ws.send(samples);
+  });
+  return () => {
+    AudioRecord.stop();
+    ws.close();
+  };
+}
 
 function createOnPress({ setIsRecording }) {
   return () => {
