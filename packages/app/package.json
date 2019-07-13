@@ -13,6 +13,7 @@
     ]
   },
   "dependencies": {
+    "buffer": "^5.2.1",
     "react": "16.8.6",
     "react-native": "0.60.1",
     "react-native-audio-record": "^0.2.0"
