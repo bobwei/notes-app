@@ -44,7 +44,9 @@ function startRecording({ noteId }) {
   AudioRecord.on('data', (data) => {
     const arr8 = Buffer.from(data, 'base64');
     const samples = new Int16Array(arr8.buffer);
-    ws.send(samples);
+    if (ws.readyState === ws.OPEN) {
+      ws.send(samples);
+    }
   });
   const db = firebase.firestore();
   let messageId = null;
