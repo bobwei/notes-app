@@ -1993,6 +1993,25 @@
     eslint-plugin-react-native "3.6.0"
     prettier "1.16.4"
 
+"@react-native-firebase/app-types@0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app-types/-/app-types-0.0.26.tgz#70499ee68f5f3807370b994e352fbc207e99512f"
+  integrity sha512-3iC+NCrdHr69FcE6E9XuSZxga7bA/rNr01dmfWvsDeiD4S3kxrMPjnjp3AA6DumqJKZ+8WxKAAIQ5O0BrY0gag==
+
+"@react-native-firebase/app@^0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-0.0.26.tgz#c068774042986d766898da8cfaefba2705a77bec"
+  integrity sha512-jQu/NSioOiqx6rxgYg2NZmIUnc+GQ4/4d97F0P+/MzdYJlpoTemY0/F9QV9OFvEhuUm8hlt/KkgPXIFFEcp3Zg==
+  dependencies:
+    "@react-native-firebase/app-types" "0.0.26"
+    "@react-native-firebase/common" "0.0.26"
+    opencollective-postinstall "^2.0.1"
+
+"@react-native-firebase/common@0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/common/-/common-0.0.26.tgz#3df21a8eaf1a37ab66af13fa1af47c2f70dcfb30"
+  integrity sha512-fyBMBEW0iubxrCVIcTg6ByWohXHG77hDNEW3RsemY1Ph7/qvov79NdRLnLX54NQRDSzN1GpGlj4tV6y8isiD1A==
+
 "@types/babel__core@^7.1.0":
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.2.tgz#608c74f55928033fce18b99b213c16be4b3d114f"
@@ -8613,6 +8632,11 @@ open@^6.2.0:
   integrity sha512-IFenVPgF70fSm1keSd2iDBIDIBZkroLeuffXq+wKTzTJlBpesFWojV9lb8mzOfaAzM1sr7HQHuO0vtV0zYekGg==
   dependencies:
     is-wsl "^1.1.0"
+
+opencollective-postinstall@^2.0.1:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
+  integrity sha512-pVOEP16TrAO2/fjej1IdOyupJY8KDUM1CvsaScRbw6oddvpQoOfGk4ywha0HKKVAD6RkW4x6Q+tNBwhf3Bgpuw==
 
 optimist@^0.6.1:
   version "0.6.1"

@@ -13,6 +13,7 @@
     ]
   },
   "dependencies": {
+    "@react-native-firebase/app": "^0.0.26",
     "buffer": "^5.2.1",
     "react": "16.8.6",
     "react-native": "0.60.1",
