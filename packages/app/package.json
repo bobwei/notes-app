@@ -5,7 +5,8 @@
   "scripts": {
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postinstall": "npx jetify"
   },
   "workspaces": {
     "nohoist": [
@@ -16,7 +17,8 @@
     "buffer": "^5.2.1",
     "react": "16.8.6",
     "react-native": "0.60.1",
-    "react-native-audio-record": "https://github.com/bobwei/react-native-audio-record.git"
+    "react-native-audio-record": "https://github.com/bobwei/react-native-audio-record.git",
+    "react-native-firebase": "^5.5.5"
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",
