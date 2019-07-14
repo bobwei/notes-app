@@ -6,6 +6,8 @@ import firebase from 'react-native-firebase';
 import * as R from 'ramda';
 import shortid from 'shortid';
 
+import { SPEECH_API_BASE_URL } from './env';
+
 const App = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [noteId, setNoteId] = useState('');
@@ -36,7 +38,7 @@ function startRecording({ noteId }) {
   const options = {
     sampleRate: 16000,
   };
-  const ws = new WebSocket('ws://192.168.31.191:3000/api/speech');
+  const ws = new WebSocket(SPEECH_API_BASE_URL + '/api/speech');
   AudioRecord.init(options);
   AudioRecord.start();
   AudioRecord.on('data', (data) => {
