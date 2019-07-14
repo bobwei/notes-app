@@ -15,10 +15,12 @@
   },
   "dependencies": {
     "buffer": "^5.2.1",
+    "ramda": "^0.26.1",
     "react": "16.8.6",
     "react-native": "0.60.1",
     "react-native-audio-record": "https://github.com/bobwei/react-native-audio-record.git",
-    "react-native-firebase": "^5.5.5"
+    "react-native-firebase": "^5.5.5",
+    "shortid": "^2.2.14"
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",
