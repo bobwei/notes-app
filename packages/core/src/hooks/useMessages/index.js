@@ -28,15 +28,17 @@ const fn = ({ firebase, noteId, onNewMessage }) => {
         .where('createdAt', '>', new Date())
         .onSnapshot((snapshot) => {
           if (snapshot.docs.length) {
-            const data = snapshot
-              .docChanges()
+            const docChanges = typeof snapshot.docChanges === 'function' ? snapshot.docChanges() : snapshot.docChanges;
+            const data = docChanges
               .filter((change) => change.type === 'added')
               .map((change) => {
                 const { id } = change.doc;
                 return { id, ...change.doc.data() };
               });
             setMessages((val) => [...val, ...data]);
-            onNewMessage();
+            if (onNewMessage) {
+              onNewMessage();
+            }
           }
         });
       return () => {
