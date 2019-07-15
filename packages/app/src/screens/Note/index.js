@@ -15,15 +15,20 @@ const Comp = ({ navigation }) => {
   const [isRecording, setIsRecording] = useState(false);
   const noteId = navigation.getParam('noteId');
   const [messages] = useMessages({ firebase, noteId });
+  const [inProgressText, setInProgressText] = useState('');
   useEffect(() => {
     if (isRecording) {
-      return startRecording({ noteId });
+      return startRecording({ noteId, setInProgressText });
     }
   }, [isRecording]);
   return (
     <View style={styles.container}>
       <View style={styles.list}>
-        <FlatList data={messages} renderItem={({ item }) => <Text>{item.text}</Text>} keyExtractor={R.prop('id')} />
+        <FlatList
+          data={!inProgressText ? messages : [...messages, { id: '0', text: inProgressText }]}
+          renderItem={({ item }) => <Text>{item.text}</Text>}
+          keyExtractor={R.prop('id')}
+        />
       </View>
       <View style={styles.button}>
         <Button onPress={createOnPress({ setIsRecording })} title={!isRecording ? 'Start' : 'Stop'} />
@@ -38,7 +43,7 @@ Comp.navigationOptions = ({ navigation }) => {
   };
 };
 
-function startRecording({ noteId }) {
+function startRecording({ noteId, setInProgressText }) {
   const options = {
     sampleRate: 16000,
   };
@@ -65,7 +70,9 @@ function startRecording({ noteId }) {
       if (!messageId) {
         messageId = shortid.generate();
       }
+      setInProgressText(transcript);
       if (isFinal) {
+        setInProgressText('');
         messageId = null;
       }
       db.collection('notes')

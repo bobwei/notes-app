@@ -4,9 +4,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   list: {
     flex: 1,
+    alignSelf: 'stretch',
   },
   button: {
     justifyContent: 'center',
@@ -14,9 +16,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     ...Platform.select({
       ios: {
+        width: '100%',
         borderTopWidth: 1,
         borderTopColor: '#ddd',
       },
+      android: {},
     }),
   },
 });
