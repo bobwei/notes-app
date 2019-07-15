@@ -14,21 +14,6 @@ const styles = StyleSheet.create({
     margin: 30,
     padding: 10,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  button: {
-    marginTop: 10,
-    width: 200,
-    alignSelf: 'center',
-  },
 });
 
 export default styles;
