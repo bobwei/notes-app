@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, TextInput } from 'react-native';
+import { View, Button } from 'react-native';
 import AudioRecord from 'react-native-audio-record';
 import { Buffer } from 'buffer';
 import firebase from 'react-native-firebase';
@@ -9,9 +9,9 @@ import shortid from 'shortid';
 import { SPEECH_API_BASE_URL } from '../../../env';
 import styles from './styles';
 
-const Comp = () => {
+const Comp = ({ navigation }) => {
   const [isRecording, setIsRecording] = useState(false);
-  const [noteId, setNoteId] = useState('');
+  const noteId = navigation.getParam('noteId');
   useEffect(() => {
     if (isRecording) {
       return startRecording({ noteId });
@@ -19,13 +19,6 @@ const Comp = () => {
   }, [isRecording]);
   return (
     <View style={styles.container}>
-      {/* prettier-ignore */}
-      <TextInput
-        style={styles.textInput}
-        placeholder="Please enter noteId."
-        onChangeText={setNoteId}
-        value={noteId}
-      />
       <Button
         onPress={createOnPress({ setIsRecording })}
         style={styles.button}
@@ -35,8 +28,10 @@ const Comp = () => {
   );
 };
 
-Comp.navigationOptions = {
-  title: 'Note',
+Comp.navigationOptions = ({ navigation }) => {
+  return {
+    title: navigation.getParam('noteId'),
+  };
 };
 
 function startRecording({ noteId }) {
