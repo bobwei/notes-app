@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "version": "",
+  "name": "@project/web",
+  "version": "0.0.1",
   "description": "",
   "scripts": {
     "dev": "babel-node src/server/index.js",
@@ -19,6 +19,7 @@
   "private": true,
   "workspaces": {
     "packages": [
+      "./",
       "packages/*"
     ],
     "nohoist": [
