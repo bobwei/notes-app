@@ -10,6 +10,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'stretch',
   },
+  listContentContainer: {
+    padding: 8,
+  },
   button: {
     justifyContent: 'center',
     height: 80,
