@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "buffer": "^5.2.1",
+    "get-yarn-workspaces": "^1.0.2",
     "ramda": "^0.26.1",
     "react": "16.8.6",
     "react-native": "0.60.1",
