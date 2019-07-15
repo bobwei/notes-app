@@ -11,12 +11,12 @@ import shortid from 'shortid';
 import createStreamToServer from '../src/utils/createStreamToServer';
 import Microphone from '../src/components/Microphone';
 import Transcript from '../src/components/Transcript';
+import useMessages from '../src/hooks/useMessages';
 
 const Comp = ({ noteId }) => {
   const [isRecording, setIsRecording] = useState(false);
-  const [messages, setMessages] = useState([]);
   const [inProgressText, setInProgressText] = useState('');
-  useDB({ noteId, setMessages, setInProgressText });
+  const [messages] = useMessages({ firebase, noteId, onNewMessage: () => setInProgressText('') });
   useRecording({ isRecording, noteId, inProgressText, setInProgressText });
   return (
     <>
@@ -111,50 +111,6 @@ async function createMessage({ noteId, text }) {
       createdAt: new Date(),
       userId,
     });
-}
-
-function useDB({ noteId, setMessages, setInProgressText }) {
-  useEffect(() => {
-    if (noteId) {
-      const db = firebase.firestore();
-
-      db.collection('notes')
-        .doc(noteId)
-        .collection('messages')
-        .orderBy('createdAt', 'asc')
-        .get()
-        .then((snapshot) => {
-          const data = snapshot.docs.map((obj) => {
-            const { id } = obj;
-            return { id, ...obj.data() };
-          });
-          setMessages(data);
-        });
-
-      const unsubscribe = db
-        .collection('notes')
-        .doc(noteId)
-        .collection('messages')
-        .orderBy('createdAt', 'asc')
-        .where('createdAt', '>', new Date())
-        .onSnapshot((snapshot) => {
-          if (snapshot.docs.length) {
-            const data = snapshot
-              .docChanges()
-              .filter((change) => change.type === 'added')
-              .map((change) => {
-                const { id } = change.doc;
-                return { id, ...change.doc.data() };
-              });
-            setMessages((messages) => [...messages, ...data]);
-            setInProgressText('');
-          }
-        });
-      return () => {
-        unsubscribe();
-      };
-    }
-  }, [noteId]);
 }
 
 function useRecording({ isRecording, noteId, inProgressText, setInProgressText }) {
