@@ -31,8 +31,10 @@ const Comp = ({ navigation }) => {
           keyExtractor={R.prop('id')}
         />
       </View>
-      <View style={styles.button}>
-        <Button onPress={createOnPress({ setIsRecording })} title={!isRecording ? 'Start' : 'Stop'} />
+      <View style={styles.toolbar}>
+        <View style={styles.button}>
+          <Button onPress={createOnPress({ setIsRecording })} title={!isRecording ? 'Start' : 'Stop'} />
+        </View>
       </View>
     </View>
   );

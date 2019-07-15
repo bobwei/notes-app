@@ -13,15 +13,19 @@ const styles = StyleSheet.create({
   listContentContainer: {
     padding: 8,
   },
+  toolbar: {
+    width: '100%',
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+  },
   button: {
     justifyContent: 'center',
+    alignSelf: 'center',
     height: 80,
-    paddingBottom: 10,
+    width: 100,
     ...Platform.select({
       ios: {
-        width: '100%',
-        borderTopWidth: 1,
-        borderTopColor: '#ddd',
+        paddingBottom: 10,
       },
       android: {},
     }),
