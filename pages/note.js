@@ -8,10 +8,11 @@ import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import shortid from 'shortid';
 
+/* eslint-disable import/no-extraneous-dependencies */
+import useMessages from '@project/core/src/hooks/useMessages';
 import createStreamToServer from '../src/utils/createStreamToServer';
 import Microphone from '../src/components/Microphone';
 import Transcript from '../src/components/Transcript';
-import useMessages from '../src/hooks/useMessages';
 
 const Comp = ({ noteId }) => {
   const [isRecording, setIsRecording] = useState(false);
