@@ -4,7 +4,6 @@ import AudioRecord from 'react-native-audio-record';
 import { Buffer } from 'buffer';
 import firebase from 'react-native-firebase';
 import * as R from 'ramda';
-import shortid from 'shortid';
 
 /* eslint-disable import/no-extraneous-dependencies */
 import useMessages from '@project/core/src/hooks/useMessages';
@@ -58,7 +57,6 @@ function startRecording({ noteId, setInProgressText }) {
     }
   });
   const db = firebase.firestore();
-  let messageId = null;
   ws.onmessage = R.pipe(
     R.prop('data'),
     (data) => JSON.parse(data),
@@ -67,25 +65,18 @@ function startRecording({ noteId, setInProgressText }) {
       isFinal: R.path(['results', 0, 'isFinal']),
     }),
     ({ transcript, isFinal }) => {
-      if (!messageId) {
-        messageId = shortid.generate();
+      if (!isFinal) {
+        setInProgressText(transcript);
+        return;
       }
-      setInProgressText(transcript);
-      if (isFinal) {
-        setInProgressText('');
-        messageId = null;
-      }
+      setInProgressText('');
       db.collection('notes')
         .doc(noteId)
         .collection('messages')
-        .doc(messageId)
-        .set(
-          {
-            text: transcript,
-            createdAt: new Date(),
-          },
-          { merge: true },
-        );
+        .add({
+          text: transcript,
+          createdAt: new Date(),
+        });
     },
   );
   return () => {
