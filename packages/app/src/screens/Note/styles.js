@@ -6,13 +6,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  list: {
-    flex: 1,
-    alignSelf: 'stretch',
-  },
-  listContentContainer: {
-    padding: 8,
-  },
   toolbar: {
     width: '100%',
     borderTopWidth: 1,

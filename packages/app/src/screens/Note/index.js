@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, FlatList } from 'react-native';
+import { View, Button } from 'react-native';
 import AudioRecord from 'react-native-audio-record';
 import { Buffer } from 'buffer';
 import firebase from 'react-native-firebase';
@@ -9,7 +9,7 @@ import * as R from 'ramda';
 import useMessages from '@project/core/src/hooks/useMessages';
 import { SPEECH_API_BASE_URL } from '../../../env';
 import styles from './styles';
-import MessageItem from '../../components/MessageItem';
+import Transcript from '../../components/Transcript';
 
 const Comp = ({ navigation }) => {
   const [isRecording, setIsRecording] = useState(false);
@@ -23,14 +23,7 @@ const Comp = ({ navigation }) => {
   }, [isRecording]);
   return (
     <View style={styles.container}>
-      <View style={styles.list}>
-        <FlatList
-          contentContainerStyle={styles.listContentContainer}
-          data={!inProgressText ? messages : [...messages, { id: '0', text: inProgressText }]}
-          renderItem={({ item }) => <MessageItem {...item} />}
-          keyExtractor={R.prop('id')}
-        />
-      </View>
+      <Transcript messages={!inProgressText ? [...messages] : [...messages, { id: '0', text: inProgressText }]} />
       <View style={styles.toolbar}>
         <View style={styles.button}>
           <Button onPress={createOnPress({ setIsRecording })} title={!isRecording ? 'Start' : 'Stop'} />
