@@ -1,3 +1,11 @@
-import Note from './src/screens/Note';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
-export default Note;
+const App = createAppContainer(
+  createStackNavigator({
+    Note: {
+      screen: require('./src/screens/Note').default,
+    },
+  }),
+);
+
+export default App;

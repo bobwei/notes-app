@@ -35,6 +35,10 @@ const Comp = () => {
   );
 };
 
+Comp.navigationOptions = {
+  title: 'Note',
+};
+
 function startRecording({ noteId }) {
   const options = {
     sampleRate: 16000,
