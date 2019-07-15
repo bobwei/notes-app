@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button } from 'react-native';
+import { View, Button, FlatList, Text } from 'react-native';
 import AudioRecord from 'react-native-audio-record';
 import { Buffer } from 'buffer';
 import firebase from 'react-native-firebase';
 import * as R from 'ramda';
 import shortid from 'shortid';
 
+/* eslint-disable import/no-extraneous-dependencies */
+import useMessages from '@project/core/src/hooks/useMessages';
 import { SPEECH_API_BASE_URL } from '../../../env';
 import styles from './styles';
 
 const Comp = ({ navigation }) => {
   const [isRecording, setIsRecording] = useState(false);
   const noteId = navigation.getParam('noteId');
+  const [messages] = useMessages({ firebase, noteId });
   useEffect(() => {
     if (isRecording) {
       return startRecording({ noteId });
@@ -19,11 +22,12 @@ const Comp = ({ navigation }) => {
   }, [isRecording]);
   return (
     <View style={styles.container}>
-      <Button
-        onPress={createOnPress({ setIsRecording })}
-        style={styles.button}
-        title={!isRecording ? 'Start' : 'Stop'}
-      />
+      <View style={styles.list}>
+        <FlatList data={messages} renderItem={({ item }) => <Text>{item.text}</Text>} keyExtractor={R.prop('id')} />
+      </View>
+      <View style={styles.button}>
+        <Button onPress={createOnPress({ setIsRecording })} title={!isRecording ? 'Start' : 'Stop'} />
+      </View>
     </View>
   );
 };

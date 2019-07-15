@@ -1,11 +1,23 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+  },
+  list: {
+    flex: 1,
+  },
+  button: {
+    justifyContent: 'center',
+    height: 80,
+    paddingBottom: 10,
+    ...Platform.select({
+      ios: {
+        borderTopWidth: 1,
+        borderTopColor: '#ddd',
+      },
+    }),
   },
 });
 
