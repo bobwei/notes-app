@@ -10,6 +10,7 @@
     - [Run on Android](#Run-on-Android)
   - [Packages](#Packages)
   - [Environment Variables](#Environment-Variables)
+  - [Bundle](#Bundle)
 
 ## Install dependencies
 
@@ -93,4 +94,19 @@ packages/app/ios/GoogleService-Info.plist
 
 ```
 packages/app/android/app/google-services.json
+```
+
+## Bundle
+
+iOS
+
+```
+react-native bundle --dev false --entry-file index.js --bundle-output ios/main.jsbundle --platform ios
+```
+
+Android
+
+```
+mkdir -p android/app/src/main/assets
+react-native bundle --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/ --platform android
 ```
