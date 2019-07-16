@@ -8,6 +8,18 @@ const fn = ({ firebase, noteId, onNewMessage }) => {
 
     db.collection('notes')
       .doc(noteId)
+      .get()
+      .then((snapshot) => {
+        if (!snapshot.exists) {
+          return db
+            .collection('notes')
+            .doc(noteId)
+            .set({ createdAt: new Date() }, { merge: true });
+        }
+      });
+
+    db.collection('notes')
+      .doc(noteId)
       .collection('messages')
       .orderBy('createdAt', 'asc')
       .get()
