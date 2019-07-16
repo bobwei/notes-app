@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const fn = ({ firebase, noteId, onNewMessage }) => {
+const fn = ({ firebase, noteId, onCreated }) => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -29,9 +29,7 @@ const fn = ({ firebase, noteId, onNewMessage }) => {
           return { id, ...doc.data() };
         });
         setMessages(data);
-        if (onNewMessage) {
-          onNewMessage();
-        }
+        if (onCreated) onCreated();
       });
     return () => {
       unsubscribe();

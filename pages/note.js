@@ -17,7 +17,7 @@ import Transcript from '../src/components/Transcript';
 const Comp = ({ noteId }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [inProgressText, setInProgressText] = useState('');
-  const [messages] = useMessages({ firebase, noteId, onNewMessage: () => setInProgressText('') });
+  const [messages] = useMessages({ firebase, noteId, onCreated: () => setInProgressText('') });
   useRecording({ isRecording, noteId, inProgressText, setInProgressText });
   return (
     <>
