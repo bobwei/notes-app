@@ -10,21 +10,25 @@ import useMessages from '@project/core/src/hooks/useMessages';
 import { SPEECH_API_BASE_URL } from '../../../env';
 import styles from './styles';
 import Transcript from '../../components/Transcript';
+import Amplitude from '../../components/Amplitude';
 
 const Comp = ({ navigation }) => {
   const [isRecording, setIsRecording] = useState(false);
   const noteId = navigation.getParam('noteId');
   const [messages] = useMessages({ firebase, noteId });
   const [inProgressText, setInProgressText] = useState('');
+  const [amp, setAmp] = useState(0);
   useEffect(() => {
     if (isRecording) {
-      return startRecording({ noteId, setInProgressText });
+      return startRecording({ noteId, setInProgressText, setAmp });
     }
+    setTimeout(() => setAmp(0), 1000);
   }, [isRecording]);
   return (
     <View style={styles.container}>
       <Transcript messages={!inProgressText ? [...messages] : [...messages, { id: '0', text: inProgressText }]} />
       <View style={styles.toolbar}>
+        <Amplitude value={amp} />
         <View style={styles.button}>
           <Button onPress={createOnPress({ setIsRecording })} title={!isRecording ? 'Start' : 'Stop'} />
         </View>
@@ -39,7 +43,7 @@ Comp.navigationOptions = ({ navigation }) => {
   };
 };
 
-function startRecording({ noteId, setInProgressText }) {
+function startRecording({ noteId, setInProgressText, setAmp }) {
   const options = {
     sampleRate: 16000,
   };
@@ -49,6 +53,8 @@ function startRecording({ noteId, setInProgressText }) {
   AudioRecord.on('data', (data) => {
     const arr8 = Buffer.from(data, 'base64');
     const samples = new Int16Array(arr8.buffer);
+    const amp = Math.max(...samples.map((val) => Math.abs(val)));
+    setAmp(amp);
     if (ws.readyState === ws.OPEN) {
       ws.send(samples);
     }
