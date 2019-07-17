@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, FlatList, Text } from 'react-native';
+import { View, Button, FlatList, Text, TouchableOpacity } from 'react-native';
 import shortid from 'shortid';
 import firebase from 'react-native-firebase';
 import * as R from 'ramda';
@@ -23,10 +23,12 @@ const Comp = ({ navigation: { navigate } }) => {
           contentContainerStyle={styles.listContentContainer}
           renderItem={({ item }) => {
             return (
-              <View style={styles.note}>
-                <Time time={item.createdAt} />
-                <Text>{item.id}</Text>
-              </View>
+              <TouchableOpacity onPress={() => navigate('Note', { noteId: item.id })}>
+                <View style={styles.note}>
+                  <Time time={item.createdAt} />
+                  <Text>{item.id}</Text>
+                </View>
+              </TouchableOpacity>
             );
           }}
         />
