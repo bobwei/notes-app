@@ -2,11 +2,12 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   message: {
-    marginTop: 15,
-    marginBottom: 15,
+    padding: 12,
   },
   text: {
     fontSize: 16,
+    marginTop: 5,
+    marginBottom: 5,
   },
 });
 

@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   listContentContainer: {
-    padding: 8,
+    padding: 10,
   },
 });
 

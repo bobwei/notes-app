@@ -4,7 +4,6 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 14,
     color: '#8294a5',
-    marginBottom: 5,
     minHeight: 21,
   },
 });
