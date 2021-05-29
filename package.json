@@ -72,7 +72,7 @@
     "react-dom": "^16.8.6",
     "reactstrap": "^8.0.0",
     "shortid": "^2.2.14",
-    "ws": "^7.0.1"
+    "ws": "^7.4.6"
   },
   "husky": {
     "hooks": {
